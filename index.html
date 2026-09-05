@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Puzzle Paws: Whisker Woods</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <div id="frame">
+    <div id="hud">
+      <div id="hud-left">
+        <canvas id="hud-cat-icon" width="32" height="32"></canvas>
+        <div id="hud-text">
+          <div id="hud-name">Tabby</div>
+          <div id="hud-stage">Kitten</div>
+        </div>
+      </div>
+      <div id="hud-right">
+        <div id="hud-defeats">0 / 6</div>
+        <button id="pause-btn" title="Pause">II</button>
+      </div>
+    </div>
+
+    <div id="canvas-wrap">
+      <canvas id="game-canvas" width="480" height="352"></canvas>
+      <div id="tile-prompt" class="hidden"></div>
+
+      <div id="screen-title" class="overlay hidden">
+        <h1 class="pixel-text title-text">PUZZLE PAWS</h1>
+        <p class="subtitle">A Whisker Woods Adventure</p>
+        <div class="menu-list">
+          <button id="btn-continue" class="hidden">Continue</button>
+          <button id="btn-newgame">New Game</button>
+          <button id="btn-customize-title">Customize</button>
+          <button id="btn-howtoplay">How to Play</button>
+        </div>
+      </div>
+
+      <div id="screen-howto" class="overlay hidden">
+        <div class="panel wide">
+          <h2>How to Play</h2>
+          <p class="howto-lead">Whisker Woods is one single winding path with 6 levels on it, in order. You can't skip ahead — each creature physically blocks the trail until you beat it.</p>
+          <ul class="howto-list">
+            <li><b>Move:</b> Arrow keys or WASD</li>
+            <li><b>Interact:</b> Enter / Space (use it on the Camp or Portal tiles)</li>
+            <li><b>Pause:</b> Esc, any time you're walking</li>
+          </ul>
+          <p class="howto-sub">The 6 levels, in order:</p>
+          <ul class="howto-list howto-levels">
+            <li><b>1. Slime</b> — Memory Trial: flip cards, find every pair</li>
+            <li><b>2. Bat</b> — Reflex Trial: click each pest before it ducks away</li>
+            <li><b>3. Crab</b> — Rhythm Trial: watch the pattern, then repeat it</li>
+            <li><b>4. Golem</b> — Reflex Trial: click each pest before it ducks away</li>
+            <li><b>5. Ghost</b> — a longer Memory Trial</li>
+            <li><b>6. Dragon</b> — the final, longest Rhythm Trial</li>
+          </ul>
+          <p class="howto-sub">Winning grows your cat and unlocks new cats to play as — press Enter on the Camp tile any time to pick one. Beat all 6 and the Portal opens, but it needs fuel: catch fruit (not bugs!) across 3 short levels to power up and reach the next world.</p>
+          <button id="btn-howto-close">Back</button>
+        </div>
+      </div>
+
+      <div id="screen-intro" class="overlay hidden">
+        <div class="panel">
+          <h2>Whisker Woods</h2>
+          <p class="intro-story">Deep in Whisker Woods, six guardians stand along the only path to the Ancient Portal. Legend says any cat brave enough to out-puzzle all six will grow into a Legendary Cat.</p>
+          <p class="intro-story">Move with Arrow Keys or WASD. Walk into a guardian to challenge it — there's no way around them, only through.</p>
+          <button id="btn-intro-begin">Begin the Adventure</button>
+        </div>
+      </div>
+
+      <div id="screen-pause" class="overlay hidden">
+        <div class="panel">
+          <h2>Paused</h2>
+          <div class="menu-list">
+            <button id="btn-resume">Resume</button>
+            <button id="btn-customize-pause">Customize</button>
+            <button id="btn-exit-title">Exit to Title</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="screen-customize" class="overlay hidden">
+        <div class="panel wide">
+          <h2 id="customize-title">Customize Your Cat</h2>
+          <canvas id="customize-preview" width="128" height="128"></canvas>
+          <div id="customize-character-name" class="customize-character-name"></div>
+          <div class="custom-row">
+            <span class="custom-label">Character</span>
+            <div id="color-options" class="option-row"></div>
+          </div>
+          <button id="btn-customize-done">Done</button>
+        </div>
+      </div>
+
+      <div id="screen-encounter" class="overlay hidden">
+        <div class="encounter-panel">
+          <div id="encounter-header" class="encounter-header"></div>
+          <div id="encounter-dialogue" class="dialogue"></div>
+          <div id="puzzle-area"></div>
+          <button id="btn-flee" class="btn-secondary">Retreat</button>
+        </div>
+      </div>
+
+      <div id="screen-victory" class="overlay hidden">
+        <div class="panel">
+          <h2>Welcome to the Next World!</h2>
+          <p id="victory-stats"></p>
+          <div class="menu-list">
+            <button id="btn-victory-continue">Keep Exploring</button>
+            <button id="btn-victory-title">Return to Title</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="screen-fuel-intro" class="overlay hidden">
+        <div class="panel">
+          <h2>Out of Fuel</h2>
+          <p class="intro-story">Looks like you need more fuel to reach the next world! Catch enough fruit to power the Portal — but watch out for bugs. Catch a bug while you're holding fruit and you'll drop one. Catch 3 bugs and you'll need to try again.</p>
+          <p class="intro-story">Move left and right with Arrow Keys or WASD. You have 60 seconds per level, across 3 levels.</p>
+          <button id="btn-fuel-begin">Start Catching</button>
+        </div>
+      </div>
+
+      <div id="catch-hud" class="hidden">
+        <span id="catch-level-label"></span>
+        <span id="catch-fruit-label"></span>
+        <span id="catch-bugs-label"></span>
+        <span id="catch-time-label"></span>
+        <button id="btn-catch-leave" class="btn-secondary">Leave</button>
+      </div>
+
+      <div id="screen-catch-result" class="overlay hidden">
+        <div class="panel">
+          <h2 id="catch-result-title">Level Complete!</h2>
+          <p id="catch-result-message"></p>
+          <div class="menu-list">
+            <button id="btn-catch-continue">Next Level</button>
+            <button id="btn-catch-retry" class="btn-secondary hidden">Try Again</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="screen-loading" class="overlay">
+        <p class="loading-text">Loading Adventure<span id="loading-dots">...</span></p>
+        <div class="progress-track"><div id="loading-bar" class="progress-fill"></div></div>
+        <p class="skip-hint">(click to skip)</p>
+      </div>
+
+      <div id="screen-confirm" class="overlay hidden">
+        <div class="panel">
+          <h2>Are you sure?</h2>
+          <p id="confirm-message" class="confirm-message"></p>
+          <div class="menu-list">
+            <button id="btn-confirm-yes">Yes</button>
+            <button id="btn-confirm-no" class="btn-secondary">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="hidden"></div>
+
+<script src="sprites.js?v=9"></script>
+<script src="game.js?v=9"></script>
+</body>
+</html>
