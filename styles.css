@@ -217,6 +217,7 @@ button:active { transform: translateY(3px); border-bottom-width: 1px; }
 .howto-list { text-align: left; font-size: 13px; line-height: 1.9; margin: 0 0 8px; padding-left: 18px; color: #f2ead8; }
 .howto-levels li { font-size: 12px; line-height: 1.7; }
 .intro-story { text-align: left; font-size: 13px; line-height: 1.7; color: #f2ead8; margin: 0 0 14px; }
+#victory-epilogue { font-size: 13px; line-height: 1.6; color: #cfc4ad; margin: 10px 0 18px; }
 .confirm-message { font-size: 13px; color: #f2ead8; margin: 0 0 18px; }
 
 #customize-preview {

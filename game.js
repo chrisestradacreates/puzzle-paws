@@ -229,6 +229,7 @@
     btnFlee: document.getElementById("btn-flee"),
     victory: document.getElementById("screen-victory"),
     victoryStats: document.getElementById("victory-stats"),
+    victoryEpilogue: document.getElementById("victory-epilogue"),
     btnVictoryContinue: document.getElementById("btn-victory-continue"),
     btnVictoryTitle: document.getElementById("btn-victory-title"),
     toast: document.getElementById("toast"),
@@ -611,7 +612,8 @@
     el.catchHud.classList.add("hidden");
     playSound("victory");
     showScreen("victory");
-    el.victoryStats.textContent = S.catName + " gathered enough fuel to power the Portal and reached the next world!";
+    el.victoryStats.textContent = "Thanks for playing! " + S.catName + " has advanced to the next level.";
+    el.victoryEpilogue.textContent = "There are many more worlds waiting to be explored... but that's an adventure for another day.";
     spawnParticles(canvas.width / 2, canvas.height / 2, "#e8934a", 40);
   }
   el.btnVictoryContinue.addEventListener("click", function () { mode = STATE.OVERWORLD; hideAllScreens(); });
